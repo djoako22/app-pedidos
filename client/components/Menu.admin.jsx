@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import Card from "./Card";
 
 function MenuAdmin({ setErrorMessage }) {
-    const [menus, setMenus] = useState(null);
+    const [menus, setMenus] = useState([]);
     const [formDataAddMenu, setFormDataAddMenu] = useState({});
     const [formDataEditMenu, setFormDataEditMenu] = useState({});
     const [showFormEditMenu, setShowFormEditMenu] = useState(false);
     const [idEditMenu, setIdEditMenu] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getMenus();
@@ -19,6 +20,7 @@ function MenuAdmin({ setErrorMessage }) {
             setErrorMessage(data.error);
         }
         setMenus(data.menus);
+        setLoading(false);
     };
 
     const handleAddMenu = async (e) => {
@@ -177,38 +179,43 @@ function MenuAdmin({ setErrorMessage }) {
                     </>
                 )}
                 <div className="container">
-                    {menus &&
-                        menus.map(({ _id, name, description, price, duration, image }) => {
-                            image = image
-                                ? process.env.NEXT_PUBLIC_URL_API + "/" + image
-                                : "https://via.placeholder.com/150";
-                            return (
-                                <Card key={_id}>
-                                    <h2>{name}</h2>
-                                    <img src={image} alt="menu" />
-                                    <p>{description}</p>
-                                    <p>Duración: {duration} min</p>
-                                    <h3>${price}</h3>
-                                    <div>
-                                        <a
-                                            onClick={() => {
-                                                handleFormEditMenu(_id);
-                                            }}
-                                        >
-                                            Editar
-                                        </a>
-                                        {" o "}
-                                        <a
-                                            onClick={() => {
-                                                handleDeleteMenu(_id);
-                                            }}
-                                        >
-                                            Eliminar
-                                        </a>
-                                    </div>
-                                </Card>
-                            );
-                        })}
+                    {loading ? (
+                        <div>Cargando...</div>
+                    ) : (
+                        <>
+                            {menus.map(({ _id, name, description, price, duration, image }) => {
+                                image = image
+                                    ? process.env.NEXT_PUBLIC_URL_API + "/" + image
+                                    : "https://via.placeholder.com/150";
+                                return (
+                                    <Card key={_id}>
+                                        <h2>{name}</h2>
+                                        <img src={image} alt="menu" />
+                                        <p>{description}</p>
+                                        <p>Duración: {duration} min</p>
+                                        <h3>${price}</h3>
+                                        <div>
+                                            <a
+                                                onClick={() => {
+                                                    handleFormEditMenu(_id);
+                                                }}
+                                            >
+                                                Editar
+                                            </a>
+                                            {" o "}
+                                            <a
+                                                onClick={() => {
+                                                    handleDeleteMenu(_id);
+                                                }}
+                                            >
+                                                Eliminar
+                                            </a>
+                                        </div>
+                                    </Card>
+                                );
+                            })}
+                        </>
+                    )}
                 </div>
                 <br />
                 <h3>Crear menu:</h3>

@@ -14,8 +14,8 @@ function OrderClient() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (order.name == "") {
-            alert("Por favor, ingrese el nombre del cliente");
+        if (order.name == "" || order.phone == "" || order.table == "" || order.menus == []) {
+            alert("Rellena todos los campos");
             return;
         }
         const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/order", {
@@ -36,7 +36,7 @@ function OrderClient() {
             localStorage.setItem("myOrders", JSON.stringify([data.order]));
         }
         setMyOrders(JSON.parse(localStorage.getItem("myOrders")));
-        setOrder({ ...order, menus: [] });
+        setOrder({ ...order, menus: [], total: 0, duration: 0 });
         setShowOrder(false);
     };
 

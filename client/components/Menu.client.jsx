@@ -7,6 +7,8 @@ function MenuClient() {
 
     const [menus, setMenus] = useState([]);
 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         getMenus();
         const interval = setInterval(getMenus, 20000);
@@ -17,6 +19,7 @@ function MenuClient() {
         const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/menus");
         const data = await res.json();
         setMenus(data.menus);
+        setLoading(false);
     };
 
     const addMenu = (menu) => {
@@ -46,28 +49,35 @@ function MenuClient() {
             <div>
                 <h1>Menus:</h1>
                 <div className="container">
-                    {menus &&
-                        menus.map((menu) => (
-                            <div
-                                key={menu._id}
-                                onClick={() => {
-                                    addMenu(menu);
-                                }}
-                            >
-                                <Card hover>
-                                    <h2>{menu.name}</h2>
-                                    <img
-                                        src={
-                                            menu.image
-                                                ? process.env.NEXT_PUBLIC_URL_API + "/" + menu.image
-                                                : "https://via.placeholder.com/150"
-                                        }
-                                    />
-                                    <p>{menu.description}</p>
-                                    <h3>${menu.price}</h3>
-                                </Card>
-                            </div>
-                        ))}
+                    {loading ? (
+                        <div>Cargando...</div>
+                    ) : (
+                        <>
+                            {menus.map((menu) => (
+                                <div
+                                    key={menu._id}
+                                    onClick={() => {
+                                        addMenu(menu);
+                                    }}
+                                >
+                                    <Card hover>
+                                        <h2>{menu.name}</h2>
+                                        <img
+                                            src={
+                                                menu.image
+                                                    ? process.env.NEXT_PUBLIC_URL_API +
+                                                      "/" +
+                                                      menu.image
+                                                    : "https://via.placeholder.com/150"
+                                            }
+                                        />
+                                        <p>{menu.description}</p>
+                                        <h3>${menu.price}</h3>
+                                    </Card>
+                                </div>
+                            ))}
+                        </>
+                    )}
                 </div>
             </div>
         </>
