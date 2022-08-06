@@ -15,7 +15,7 @@ function OrderClient() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (order.name == "" || order.phone == "" || order.table == "" || order.menus == []) {
-            alert("Rellena todos los campos");
+            alert("No se olvide de llenar todos los campos");
             return;
         }
         const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/order", {
