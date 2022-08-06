@@ -14,7 +14,7 @@ function OrderClient() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (order.name == "" || order.phone == "" || order.table == "" || order.menus == []) {
+        if (order.name == "" || order.phone == "" || order.table == "" || order.menus.length == 0) {
             alert("No se olvide de llenar todos los campos");
             return;
         }
