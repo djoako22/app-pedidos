@@ -35,7 +35,7 @@ function Login() {
                 {token ? (
                     <h1>You are logged</h1>
                 ) : (
-                    <Card>
+                    <div className="login">
                         <h1>Login</h1>
 
                         <form onSubmit={handleSubmit}>
@@ -67,7 +67,7 @@ function Login() {
                             </button>
                         </form>
                         {errorMessage && <p>{errorMessage}</p>}
-                    </Card>
+                    </div>
                 )}
             </div>
         </>

@@ -34,29 +34,6 @@ const login = async (req, res, next) => {
     }
 };
 
-const signup = async (req, res, next) => {
-    const { username, password } = req.body;
-
-    if (!username || !password)
-        return res.status(401).json({ error: "Username or password is incorrect" });
-
-    if (await User.findOne({ username }))
-        return res.status(400).json({ error: "Username already exists" });
-
-    try {
-        const salt = await bcrypt.genSalt(10);
-        const passwordHash = await bcrypt.hash(password, salt);
-
-        const newUser = await User.create({
-            username,
-            password: passwordHash,
-        });
-        res.json({ user: newUser.hiddenFields() });
-    } catch (err) {
-        next(err);
-    }
-};
-
 const logout = async (req, res, next) => {
     try {
         await User.findByIdAndUpdate(req.user.id, { status: "INACTIVE" });
@@ -68,6 +45,5 @@ const logout = async (req, res, next) => {
 
 module.exports = {
     login,
-    signup,
     logout,
 };

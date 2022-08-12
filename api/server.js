@@ -20,6 +20,7 @@ app.use(
 app.use(cors());
  
 // Import routes
+app.use("/api", require("./routes/auth.route"));
 app.use("/api", require("./routes/user.route"));
 app.use("/api", require("./routes/order.route"));
 app.use("/api", require("./routes/menu.route"));

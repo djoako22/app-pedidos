@@ -27,36 +27,36 @@ const addOrder = async (req, res, next) => {
             .map((menu) => `${menu.name} x ${menu.quantity} - ${menu.price}`)
             .join("\n")}\nTotal: ${total}`;
 
-        if (user.phone) {
-            client.messages.create({
-                from: "whatsapp:" + process.env.TWILIO_PHONE,
-                body: msg,
-                to: "whatsapp:+549" + user.phone,
-            });
-        }
+        // if (user.phone) {
+        //     client.messages.create({
+        //         from: "whatsapp:" + process.env.TWILIO_PHONE,
+        //         body: msg,
+        //         to: "whatsapp:+549" + user.phone,
+        //     });
+        // }
 
-        if (user.email) {
-            let transporter = nodemailer.createTransport({
-                host: "smtp.gmail.com",
-                port: 465,
-                secure: true,
-                auth: {
-                    type: "OAuth2",
-                    user: process.env.GMAIL_USER,
-                    clientId: process.env.GMAIL_CLIENT_ID,
-                    clientSecret: process.env.GMAIL_CLIENT_SECRET,
-                    refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-                    accessToken: process.env.GMAIL_ACCESS_TOKEN,
-                    expires: 1484314697598,
-                },
-            });
-            transporter.sendMail({
-                from: process.env.GMAIL_USER,
-                to: user.email,
-                subject: "Nuevo pedido",
-                text: msg,
-            });
-        }
+        // if (user.email) {
+        //     let transporter = nodemailer.createTransport({
+        //         host: "smtp.gmail.com",
+        //         port: 465,
+        //         secure: true,
+        //         auth: {
+        //             type: "OAuth2",
+        //             user: process.env.GMAIL_USER,
+        //             clientId: process.env.GMAIL_CLIENT_ID,
+        //             clientSecret: process.env.GMAIL_CLIENT_SECRET,
+        //             refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+        //             accessToken: process.env.GMAIL_ACCESS_TOKEN,
+        //             expires: 1484314697598,
+        //         },
+        //     });
+        //     transporter.sendMail({
+        //         from: process.env.GMAIL_USER,
+        //         to: user.email,
+        //         subject: "Nuevo pedido",
+        //         text: msg,
+        //     });
+        // }
 
         res.json({ order });
     } catch (err) {
